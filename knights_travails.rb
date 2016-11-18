@@ -18,7 +18,7 @@ class KnightPathFinder
     positions.select { |x, y| x.between?(0, 7) && y.between?(0, 7) }
   end
 
-  attr_reader :tree
+  attr_reader :tree, :visited_positions
   def initialize(start_pos)
     @start_pos = start_pos
     @visited_positions = [start_pos]
@@ -39,8 +39,8 @@ class KnightPathFinder
 
     until queue.empty?
       current_node = queue.shift
-      moves = new_move_positions(current_node.value)
-      moves.each do |pos|
+      new_positions = new_move_positions(current_node.value)
+      new_positions.each do |pos|
         node = PolyTreeNode.new(pos)
         node.parent = current_node
         queue << node
@@ -48,5 +48,22 @@ class KnightPathFinder
     end
 
     root
+  end
+
+  def find_path(end_pos)
+    end_node = @tree.dfs(end_pos)
+
+    trace_path_back(end_node)
+  end
+
+  def trace_path_back(node)
+    path = [node.value]
+
+    until node.parent.nil?
+      path.unshift(node.parent.value)
+      node = node.parent
+    end
+
+    path
   end
 end
