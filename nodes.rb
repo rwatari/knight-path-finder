@@ -47,4 +47,10 @@ class PolyTreeNode
 
     nil
   end
+
+  def inspect
+    puts "parent = #{@parent.value}"
+    puts "children = #{@children.map(&:value)}"
+    puts "value = #{@value}"
+  end
 end
