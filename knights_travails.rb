@@ -1,15 +1,14 @@
 require_relative 'nodes'
 class KnightPathFinder
-
   DIRECTIONS = [
-    [1,2],
-    [1,-2],
-    [-1,2],
-    [-1,-2],
-    [2,1],
-    [-2,1],
-    [2,-1],
-    [-2,-1]
+    [ 1,  2],
+    [ 1, -2],
+    [-1,  2],
+    [-1, -2],
+    [ 2,  1],
+    [-2,  1],
+    [ 2, -1],
+    [-2, -1]
   ]
 
   def self.valid_moves(pos)
@@ -18,12 +17,19 @@ class KnightPathFinder
     positions.select { |x, y| x.between?(0, 7) && y.between?(0, 7) }
   end
 
-  attr_reader :tree, :visited_positions
   def initialize(start_pos)
     @start_pos = start_pos
     @visited_positions = [start_pos]
     @tree = build_move_tree
   end
+
+  def find_path(end_pos)
+    end_node = @tree.dfs(end_pos)
+
+    trace_path_back(end_node)
+  end
+
+  private
 
   def new_move_positions(pos)
     moves = self.class.valid_moves(pos)
@@ -48,12 +54,6 @@ class KnightPathFinder
     end
 
     root
-  end
-
-  def find_path(end_pos)
-    end_node = @tree.dfs(end_pos)
-
-    trace_path_back(end_node)
   end
 
   def trace_path_back(node)
