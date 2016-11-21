@@ -18,8 +18,12 @@ class KnightPathFinder
   end
 
   def initialize(start_pos)
-    @start_pos = start_pos
-    @visited_positions = [start_pos]
+    set_new_start(start_pos)
+  end
+
+  def set_new_start(pos)
+    @start_pos = pos
+    @visited_positions = [@start_pos]
     @tree = build_move_tree
   end
 
