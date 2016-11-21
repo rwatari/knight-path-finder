@@ -33,6 +33,22 @@ class KnightPathFinder
     trace_path_back(end_node)
   end
 
+  def render_board
+    rows = []
+    8.times do |row|
+      row_array = []
+
+      8.times do |col|
+        path = find_path([row, col])
+        row_array << path.length - 1
+      end
+
+      rows << row_array.join(' ')
+    end
+
+    puts rows.join("\n")
+  end
+
   private
 
   def new_move_positions(pos)
